@@ -1,0 +1,68 @@
+<header class="p-4 mx-4 flex flex-row justify-between items-center">
+  <div class="flex flex-row items-center">
+    <img class="w-14" src="assets/cupcake.svg" alt="cupcake">
+    <h1 class="text-4xl ml-3 text-cyan-500"><a routerLink="/">Happy Cupcake</a></h1>
+  </div>
+  <div class="text-l inline-flex justify-end items-center text-slate-700">
+    <span class="mr-4" *ngIf="userName">Welcome back <b class="text-cyan-300">{{userName}}</b></span>
+    <ng-template #greeting>
+      <span class="mr-4">Hello cupcake fan!</span>
+    </ng-template>
+
+    <nav>
+      <ul class="inline-flex gap-3 items-center">
+        <!-- <li>
+          <a routerLink="/">
+            <button
+              class="flex items-center transition ease-in delay-150 duration-300 h-10 px-4 rounded-lg hover:border hover:border-sky-400"
+              routerLinkActive="text-cyan-500 font-semibold" [routerLinkActiveOptions]="{exact: true}">
+              <span class="material-icons-outlined text-gray-500">storefront</span>
+              <span>&nbsp;Cupcakes</span>
+            </button>
+          </a>
+        </li> -->
+        <li>
+          <a routerLink="/basket">
+            <button
+              class="flex items-center transition ease-in delay-150 duration-300 h-10 px-4 rounded-lg hover:border hover:border-sky-400"
+              routerLinkActive="text-cyan-500 font-semibold">
+              <span class="material-icons-outlined text-gray-500">shopping_basket</span>
+              <span>&nbsp;Basket</span>
+            </button>
+          </a>
+        </li>
+        <li *ngIf="userName">
+          <a routerLink="/user-management/profile">
+            <button
+              class="flex items-center transition ease-in delay-150 duration-300 h-10 px-4 rounded-lg hover:border hover:border-sky-400"
+              routerLinkActive="text-cyan-500 font-semibold">
+              <span class="material-icons-outlined text-gray-500">account_circle</span>
+              <span>&nbsp;Profile</span>
+            </button>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/user-management/login" *ngIf="!userName; else logout">
+            <button
+              class="flex items-center transition ease-in delay-150 duration-300 h-10 px-4 rounded-lg hover:border hover:border-sky-400">
+              <span class="material-icons-outlined text-gray-500">login</span>
+              <span>&nbsp;Sign In</span>
+            </button>
+          </a>
+          <ng-template #logout>
+            <button
+              class="flex items-center transition ease-in delay-150 duration-300 h-10 px-4 rounded-lg hover:border hover:border-sky-400"
+              (click)="signOut()">
+              <span class="material-icons-outlined text-gray-500">logout</span>
+              <span>&nbsp;Sign Out</span>
+            </button>
+          </ng-template>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="mt-6">
+  <router-outlet></router-outlet>
+</div>

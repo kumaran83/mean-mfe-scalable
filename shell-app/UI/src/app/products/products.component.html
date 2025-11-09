@@ -1,0 +1,11 @@
+<p class="text-center text-3xl mb-7 text-pink-500">Which sweet treat will you enjoy today?</p>
+<div class="flex flex-wrap gap-4" *ngIf="products.length; else noProducts">
+    <app-product *ngFor="let p of products" [product]="p" (purchase)="addToBasket($event)"></app-product>
+    <app-loader *ngIf="isLoading"></app-loader>
+</div>
+<ng-template #noProducts>
+    <div class="flex flex-wrap gap-4">
+        <p class="text-center text-xl mt-10 text-slate-600">No products available at the moment. Please check back
+            later!</p>
+    </div>
+</ng-template>

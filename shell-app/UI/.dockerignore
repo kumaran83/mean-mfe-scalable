@@ -1,0 +1,17 @@
+# Ignore Git-related files and directories
+.git
+.gitignore
+
+# Ignore Node.js dependencies
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore build artifacts
+build/
+dist/
+
+# Exclude all Markdown files except README.md
+*.md
+!README.md

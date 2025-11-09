@@ -1,0 +1,71 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    environment:
+      - MONGO_INITDB_DATABASE=mfe  # Initialize the database with the name 'mfe'
+    networks:
+      - app-network
+  auth-service:
+    build:
+      context: ./user-management/backend/auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/mfe  # Update the connection string to use 'mfe'
+      - PORT=5001
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+  auth-app-ui:
+    build:
+      context: ./user-management/UI
+      dockerfile: Dockerfile
+    container_name: auth-ui
+    ports:
+      - "5000:80"
+    depends_on:
+      - auth-service
+    networks:
+      - app-network
+  products-service:
+    build:
+      context: ./shell-app/backend/products-service
+      dockerfile: Dockerfile
+    container_name: products-service
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/mfe  # Update the connection string to use 'mfe'
+      - PORT=3000
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+  shell-app:
+    build:
+      context: ./shell-app/UI
+      dockerfile: Dockerfile
+    container_name: shell-ui
+    ports:
+      - "4200:80"
+    depends_on:
+      - products-service
+      - auth-app-ui
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
